@@ -1,0 +1,41 @@
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: soundbeat-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: soundbeat_db
+      MYSQL_USER: soundbeat
+      MYSQL_PASSWORD: Naranco.24
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d/
+      - mysql_data:/var/lib/mysql
+    networks:
+      - soundbeat-network
+
+  app:
+    build: .
+    container_name: soundbeat-app
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/soundbeat_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: soundbeat
+      SPRING_DATASOURCE_PASSWORD: Naranco.24
+    ports:
+      - "8000:8080"
+    networks:
+      - soundbeat-network
+    volumes:
+      - ./images:/app/images # Montar imágenes dentro del contenedor
+
+volumes:
+  mysql_data:
+
+networks:
+  soundbeat-network:
