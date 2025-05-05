@@ -42,7 +42,7 @@ services:
     container_name: soundbeat-frontend
     restart: always
     ports:
-      - "4200:80"
+      - "80:80"
     networks:
       - soundbeat-network
 
