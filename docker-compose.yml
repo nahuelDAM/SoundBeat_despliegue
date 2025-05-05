@@ -1,3 +1,4 @@
+version: "3.8"
 
 services:
   mysql:
@@ -17,9 +18,10 @@ services:
     networks:
       - soundbeat-network
 
-  app:
-    build: .
-    container_name: soundbeat-app
+  backend:
+    build:
+      context: ./backend
+    container_name: soundbeat-backend
     restart: always
     depends_on:
       - mysql
@@ -29,10 +31,20 @@ services:
       SPRING_DATASOURCE_PASSWORD: Naranco.24
     ports:
       - "8000:8080"
+    volumes:
+      - ./images:/app/images
     networks:
       - soundbeat-network
-    volumes:
-      - ./images:/app/images # Montar imágenes dentro del contenedor
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: soundbeat-frontend
+    restart: always
+    ports:
+      - "4200:80"
+    networks:
+      - soundbeat-network
 
 volumes:
   mysql_data:
