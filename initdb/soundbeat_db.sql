@@ -313,5 +313,5 @@ INSERT INTO tipo (nombre) VALUES
 ('Drum-Kit');
 
 INSERT INTO usuarios (username, email, password_hash, rol, fecha_registro)
-SELECT 'LilRyu', 'lilryu182@gmail.com', '$2a$10$E.V5s2o5YwV5Z5Y7b1o8d.9V.z2v6Q3n3g5h8gT/3fS5W6R7j2yOq', 'ADMIN', CURRENT_TIMESTAMP
+SELECT 'LilRyu', 'lilryu182@gmail.com', '$10$3BMcfH3gQLB83zQIK9fdYO48XjwCIRF87Y8t/cvg5o1Mar7DTbfIW', 'ADMIN', CURRENT_TIMESTAMP
 WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE email = 'lilryu182@gmail.com');
