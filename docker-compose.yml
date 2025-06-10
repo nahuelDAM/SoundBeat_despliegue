@@ -18,6 +18,17 @@ services:
     networks:
       - soundbeat-network
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: soundbeat-frontend
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - soundbeat-network
+
   backend:
     build:
       context: ./backend
@@ -37,16 +48,7 @@ services:
     networks:
       - soundbeat-network
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: soundbeat-frontend
-    restart: always
-    ports:
-      - "80:80"
-    networks:
-      - soundbeat-network
+
 
 volumes:
   mysql_data:

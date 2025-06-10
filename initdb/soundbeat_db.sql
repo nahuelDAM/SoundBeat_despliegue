@@ -14,47 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
---
--- Table structure for table `usuarios`
---
-
-DROP TABLE IF EXISTS `usuarios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuarios` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `fecha_registro` datetime(6) DEFAULT NULL,
-  `password_hash` varchar(255) DEFAULT NULL,
-  `rol` varchar(255) DEFAULT NULL,
-  `username` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UKkfsp0s1tflm1cwlj8idhqsad0` (`email`),
-  UNIQUE KEY `UKm2dvbwfge291euvmk6vkkocao` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `samples`
---
-
-DROP TABLE IF EXISTS `samples`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `samples` (
-  `id` bigint NOT NULL,
-  `duracion` float NOT NULL,
-  `fecha_subida` datetime DEFAULT CURRENT_TIMESTAMP,
-  `formato` varchar(255) DEFAULT NULL,
-  `license` varchar(100) DEFAULT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `popularidad` int DEFAULT '0',
-  `tags` text,
-  `tempo` int DEFAULT NULL,
-  `url` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `comentarios`
@@ -64,7 +23,7 @@ DROP TABLE IF EXISTS `comentarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comentarios` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `calificacion` tinyint DEFAULT NULL,
   `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   `texto` tinytext,
@@ -75,26 +34,7 @@ CREATE TABLE `comentarios` (
   KEY `FKdts62yj83qe3k748cgcjvm48r` (`usuario_id`),
   CONSTRAINT `FKdts62yj83qe3k748cgcjvm48r` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FKon2xm1xiwe841hlgj7y4tswe8` FOREIGN KEY (`sample_id`) REFERENCES `samples` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
---
--- Table structure for table `paquetes`
---
-
-DROP TABLE IF EXISTS `paquetes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `paquetes` (
-  `id` bigint NOT NULL,
-  `descripcion` tinytext,
-  `fecha_creacion` datetime DEFAULT CURRENT_TIMESTAMP,
-  `nombre` varchar(255) NOT NULL,
-  `publico` bit(1) DEFAULT b'0',
-  `usuario_id` bigint DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKc4s32ydpagiypbhyo9ghpf3mw` (`usuario_id`),
-  CONSTRAINT `FKc4s32ydpagiypbhyo9ghpf3mw` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +48,7 @@ CREATE TABLE `generos` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,20 +64,6 @@ CREATE TABLE `instrumento` (
   `nombre` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tipo`
---
-
-DROP TABLE IF EXISTS `tipo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tipo` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,6 +100,25 @@ CREATE TABLE `paquete_samples` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `paquetes`
+--
+
+DROP TABLE IF EXISTS `paquetes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `paquetes` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `descripcion` tinytext,
+  `fecha_creacion` datetime DEFAULT CURRENT_TIMESTAMP,
+  `nombre` varchar(255) NOT NULL,
+  `publico` bit(1) DEFAULT b'0',
+  `usuario_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKc4s32ydpagiypbhyo9ghpf3mw` (`usuario_id`),
+  CONSTRAINT `FKc4s32ydpagiypbhyo9ghpf3mw` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `sample_genero`
@@ -226,6 +171,67 @@ CREATE TABLE `sample_tipo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `samples`
+--
+
+DROP TABLE IF EXISTS `samples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `samples` (
+  `id` bigint NOT NULL,
+  `duracion` float NOT NULL,
+  `fecha_subida` datetime DEFAULT CURRENT_TIMESTAMP,
+  `formato` varchar(255) DEFAULT NULL,
+  `license` varchar(100) DEFAULT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `popularidad` bigint NOT NULL DEFAULT '0',
+  `tags` text,
+  `tempo` int DEFAULT NULL,
+  `url` varchar(500) NOT NULL,
+  `contador_descargas` bigint NOT NULL DEFAULT '0',
+  `contador_favoritos` bigint NOT NULL DEFAULT '0',
+  `contador_reproducciones` bigint NOT NULL DEFAULT '0',
+  `score_popularidad_absoluto` bigint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tipo`
+--
+
+DROP TABLE IF EXISTS `tipo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tipo` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `fecha_registro` datetime(6) DEFAULT NULL,
+  `password_hash` varchar(255) DEFAULT NULL,
+  `rol` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `reset_password_token` varchar(255) DEFAULT NULL,
+  `reset_password_token_expiry_date` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UKkfsp0s1tflm1cwlj8idhqsad0` (`email`),
+  UNIQUE KEY `UKm2dvbwfge291euvmk6vkkocao` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `usuarios_samples`
@@ -255,7 +261,7 @@ CREATE TABLE `usuarios_samples` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-04 20:17:55
+-- Dump completed on 2025-06-10 21:02:11
 use soundbeat_db;
 -- Insertando los géneros más populares
 INSERT INTO generos (nombre) VALUES
@@ -305,3 +311,7 @@ INSERT INTO tipo (nombre) VALUES
 ('Vocal'),
 ('Acapella'),
 ('Drum-Kit');
+
+INSERT INTO usuarios (username, email, password_hash, rol, fecha_registro)
+SELECT 'LilRyu', 'lilryu182@gmail.com', '$2a$10$E.V5s2o5YwV5Z5Y7b1o8d.9V.z2v6Q3n3g5h8gT/3fS5W6R7j2yOq', 'ADMIN', CURRENT_TIMESTAMP
+WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE email = 'lilryu182@gmail.com');
